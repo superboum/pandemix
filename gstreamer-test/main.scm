@@ -2,8 +2,8 @@
 
 (define (gst-message->symbol int)
   (case int
-    ((1) 'gst-message-eos)
-    ((2) 'gst-message-error)))
+    ((1) 'eos)
+    ((2) 'error)))
 
 (define (gst-state->int symbol) 
   (case symbol
@@ -50,8 +50,8 @@
 
 (define (control-loop bus msg loop)
   (case (gst-message->symbol (ftype-ref gst-message (type) msg))
-    ((gst-message-eos) (display "that's all folks") (g-main-loop-quit loop))
-    ((gst-message-error) (display "an error occured in gstreamer") (g-main-loop-quit loop)))
+    ((eos) (display "that's all folks") (g-main-loop-quit loop))
+    ((error) (display "an error occured in gstreamer") (g-main-loop-quit loop)))
   #t)
 
 (gst-init 0 0)
@@ -66,6 +66,8 @@
   (gst-object-unref bus)
   (gst-element-set-state play (gst-state->int 'playing))
   (g-main-loop-run loop)
+  (gst-element-set-state play (gst-state->int 'null))
+  (gst-object-unref play)
   (display "done")
 )
   
