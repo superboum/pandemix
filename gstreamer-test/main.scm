@@ -59,10 +59,9 @@
   ([loop (g-main-loop-new 0 #f)]
    [play (gst-element-factory-make "playbin" "play")]
    [bus  (gst-pipeline-get-bus play)]
-   [control (foreign-callable control-loop (void* (* gst-message) void*) boolean)]
-   [control2 (foreign-callable-entry-point control)])
+   [control (foreign-callable-entry-point (foreign-callable control-loop (void* (* gst-message) void*) boolean))])
   (g-object-set play "uri" (gst-filename-to-uri "loop.mp3" 0) 0)
-  (gst-bus-add-watch bus control2 loop)
+  (gst-bus-add-watch bus control loop)
   (gst-object-unref bus)
   (gst-element-set-state play (gst-state->int 'playing))
   (g-main-loop-run loop)

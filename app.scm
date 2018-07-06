@@ -8,12 +8,21 @@
 (define gtk-builder-get-object (foreign-procedure "gtk_builder_get_object" (void* string) void*))
 (define gtk-builder-connect-signals (foreign-procedure "gtk_builder_connect_signals" (void* void*) void))
 (define gtk-widget-show (foreign-procedure "gtk_widget_show" (void*) void))
+(define gtk-builder-add-callback-symbol (foreign-procedure "gtk_builder_add_callback_symbol" (void* string void*) void))
 (define gtk-main (foreign-procedure "gtk_main" () void))
+(define gtk-main-quit (foreign-procedure "gtk_main_quit" () void))
 
 (gtk-init 0 0)
 (let ([builder (gtk-builder-new)])
   (gtk-builder-add-from-file builder "interface.glade" 0)
   (let ([window (gtk-builder-get-object builder "window_main")]) 
+    (gtk-builder-add-callback-symbol
+      builder
+      "on_window_main_destroy"
+      (foreign-callable-entry-point
+        (foreign-callable
+          (lambda () (gtk-main-quit))
+          () void)))
     (gtk-builder-connect-signals builder 0)
     (g-object-unref builder)
     (gtk-widget-show window)
