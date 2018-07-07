@@ -23,6 +23,13 @@
         (foreign-callable
           (lambda () (gtk-main-quit))
           () void)))
+    (gtk-builder-add-callback-symbol
+      builder
+      "on_play_btn_clicked"
+      (foreign-callable-entry-point
+        (foreign-callable
+          (lambda () (display "clicked\n"))
+          () void)))
     (gtk-builder-connect-signals builder 0)
     (g-object-unref builder)
     (gtk-widget-show window)
