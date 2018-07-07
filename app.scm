@@ -17,7 +17,7 @@
     builder
     (car entry)
     (foreign-callable-entry-point
-      (foreign-callable (cdr entry) () void))))
+      (foreign-callable (cdr entry) (void* void*) void))))
 
 (define (gui-main gui-handlers)
   (gtk-init 0 0)
@@ -32,5 +32,5 @@
 
 (gui-main
   (list
-    (cons "on_window_main_destroy" (lambda () (gtk-main-quit)))
-    (cons "on_play_btn_clicked" (lambda () (display "clicked\n")))))
+    (cons "on_window_main_destroy" (lambda (window data) (gtk-main-quit) (exit)))
+    (cons "on_play_btn_clicked" (lambda (window data) (display "clicked\n")))))

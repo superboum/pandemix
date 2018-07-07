@@ -44,9 +44,13 @@
 (define gst-element-factory-make (foreign-procedure "gst_element_factory_make" (string string) void*))
 (define gst-pipeline-get-bus (foreign-procedure "gst_pipeline_get_bus" (void*) void*))
 (define gst-bus-add-watch (foreign-procedure "gst_bus_add_watch" (void* void* void*) void))
+(define gst-bus-add-signal-watch (foreign-procedure "gst_bus_add_signal_watch" (void*) void))
 (define gst-object-unref (foreign-procedure "gst_object_unref" (void*) void))
 (define gst-element-set-state (foreign-procedure "gst_element_set_state" (void* int) void))
 (define gst-filename-to-uri (foreign-procedure "gst_filename_to_uri" (string void*) string))
+(define g-signal-connect-data (foreign-procedure "g_signal_connect_data" (void* string void* void* void* int) void))
+(define (g-signal-connect instance detailed-signal handler data)
+  (g-signal-connect-data instance detailed-signal handler data 0 0))
 
 (define (control-loop bus msg loop)
   (case (gst-message->symbol (ftype-ref gst-message (type) msg))
@@ -54,14 +58,26 @@
     ((error) (display "an error occured in gstreamer") (g-main-loop-quit loop)))
   #t)
 
+(define (wrapper-cb fn) 
+  (foreign-callable-entry-point
+    (foreign-callable fn (void* (* gst-message) void*) void)))
+
+(define error-cb (wrapper-cb (lambda (bus msg data) (display "error\n") (g-main-loop-quit data))))
+(define eos-cb (wrapper-cb (lambda (bus msg data) (display "eos\n") (g-main-loop-quit data))))
+(define state-changed-cb (wrapper-cb (lambda (bus msg data) (display "state-changed\n"))))
+(define app-cb (wrapper-cb (lambda (bus msg data) (display "app\n"))))
+
 (gst-init 0 0)
 (let*
   ([loop (g-main-loop-new 0 #f)]
    [play (gst-element-factory-make "playbin" "play")]
-   [bus  (gst-pipeline-get-bus play)]
-   [control (foreign-callable-entry-point (foreign-callable control-loop (void* (* gst-message) void*) boolean))])
+   [bus  (gst-pipeline-get-bus play)])
   (g-object-set play "uri" (gst-filename-to-uri "loop.mp3" 0) 0)
-  (gst-bus-add-watch bus control loop)
+  (gst-bus-add-signal-watch bus)
+  (g-signal-connect bus "message::error" error-cb loop)
+  (g-signal-connect bus "message::eos" eos-cb loop)
+  (g-signal-connect bus "message::state-changed" state-changed-cb loop)
+  (g-signal-connect bus "message::application" app-cb loop)
   (gst-object-unref bus)
   (gst-element-set-state play (gst-state->int 'playing))
   (g-main-loop-run loop)
