@@ -12,19 +12,19 @@
 (define gtk-main (foreign-procedure "gtk_main" () void))
 (define gtk-main-quit (foreign-procedure "gtk_main_quit" () void))
 
+(define (gui-bind-handlers builder entry)
+  (gtk-builder-add-callback-symbol
+    builder
+    (car entry)
+    (foreign-callable-entry-point
+      (foreign-callable (cdr entry) () void))))
+
 (define (gui-main gui-handlers)
   (gtk-init 0 0)
   (let ([builder (gtk-builder-new)])
     (gtk-builder-add-from-file builder "interface.glade" 0)
     (let ([window (gtk-builder-get-object builder "window_main")]) 
-      (map
-        (lambda (entry)
-          (gtk-builder-add-callback-symbol
-            builder
-            (car entry)
-            (foreign-callable-entry-point
-              (foreign-callable (cdr entry) () void))))
-        gui-handlers)
+      (map (lambda (entry) (gui-bind-handlers builder entry)) gui-handlers)
       (gtk-builder-connect-signals builder 0)
       (g-object-unref builder)
       (gtk-widget-show window)
