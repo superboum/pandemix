@@ -1,4 +1,4 @@
-(import (src gstreamer1))
+(import (src gstreamer1) (src glib) (src gobject))
 
 (define (wrapper-cb fn) 
   (foreign-callable-entry-point

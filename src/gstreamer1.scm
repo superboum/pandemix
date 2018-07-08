@@ -1,12 +1,5 @@
 (library (src gstreamer1)
   (export 
-    g-main-loop-new
-    g-object-set
-    g-signal-connect-data
-    g-signal-connect
-    g-main-loop-run
-    g-main-loop-quit
-
     gst-message->symbol
     gst-state->int
     gst-mini-object
@@ -58,22 +51,6 @@
       [lock void*]
       [cond void*]))
 
-  ; GLib part
-  (define (g-main-loop-new context is-running)
-    ((foreign-procedure "g_main_loop_new" (void* boolean) void*) context is-running))
-  (define (g-object-set object property value)
-    ((foreign-procedure "g_object_set" (void* string string void*) void) object property value 0))
-  (define (g-main-loop-run loop)
-    ((foreign-procedure "g_main_loop_run" (void*) void) loop))
-  (define (g-main-loop-quit loop)
-    ((foreign-procedure "g_main_loop_quit" (void*) void) loop))
-  (define (g-signal-connect-data instance detailed-signal handler data destroy-data connect-flag)
-    ((foreign-procedure "g_signal_connect_data" (void* string void* void* void* int) void)
-       instance detailed-signal handler data destroy-data connect-flag))
-  (define (g-signal-connect instance detailed-signal handler data)
-    (g-signal-connect-data instance detailed-signal handler data 0 0))
-
-  ; GStreamer Part
   (define (gst-init argc argv)
     ((foreign-procedure "gst_init" (ptr void*) void) argc argv))
   (define (gst-element-factory-make factory-name name)
