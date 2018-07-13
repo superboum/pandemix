@@ -5,7 +5,7 @@
   <object class="GtkWindow" id="window_main">
     <property name="can_focus">False</property>
     <property name="default_width">640</property>
-    <property name="default_height">480</property>
+    <property name="default_height">240</property>
     <property name="icon_name">audio-volume-high</property>
     <signal name="destroy" handler="on_window_main_destroy" swapped="no"/>
     <child type="titlebar">
