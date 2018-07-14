@@ -1,4 +1,4 @@
-(library (src gobject)
+(library (src bindings gobject)
   (export 
     g-signal-connect-data
     g-signal-connect

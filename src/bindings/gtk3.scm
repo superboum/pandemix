@@ -1,4 +1,4 @@
-(library (src gtk3)
+(library (src bindings gtk3)
   (export
     gtk-init
     gtk-builder-new 

@@ -1,4 +1,4 @@
-(library (src gstreamer1)
+(library (src bindings gstreamer1)
   (export 
     gst-message->symbol
     gst-state->int

@@ -1,4 +1,4 @@
-(library (src glib)
+(library (src bindings glib)
   (export
     g-main-loop-new
     g-main-loop-run
