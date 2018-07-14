@@ -21,6 +21,8 @@ sudo dnf install glade3
 glade interface.glade
 ```
 
+Check you have at least Glade 3.22.1 otherwise you will no be able to edit your application.
+
 ### Other
 
 Currently, this project is only tested on Fedora 28
