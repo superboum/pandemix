@@ -4,7 +4,7 @@ Pandémix
 A distributed web radio project currently at a design stage.
 Should have features similar to [noidd](https://noidd.com/#/home) or [plugdj](https://plug.dj/) but without any central server.
 
-[![Pandémix interface](https://cloud.deuxfleurs.fr/f/1fa64497ec644cecae8a/?dl=1)](https://cloud.deuxfleurs.fr/f/1fa64497ec644cecae8a/?dl=1)
+[![Pandémix interface](https://cloud.deuxfleurs.fr/f/fc9b5cd5a660472286b0/?dl=1)](https://cloud.deuxfleurs.fr/f/fc9b5cd5a660472286b0/?dl=1)
 
 ## Development
 
