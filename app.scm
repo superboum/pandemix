@@ -36,29 +36,41 @@
     (gst-element-set-state play (gst-state->int 'null))
     (gst-object-unref play)))
 
-(define (gui-main gui-handlers)
+(define (gui-main body)
   (gtk-init 0 0)
   (let
     ([builder (gtk-builder-new)])
     (gtk-builder-add-from-file builder "interface.glade" 0)
 
-    (let ([window (gtk-builder-get-object builder "window_main")]) 
-      (map (lambda (entry) (gui-bind-handlers builder entry)) gui-handlers)
+    (let*
+      ([window (gtk-builder-get-object builder "window_main")]
+       [gui-handlers (body builder)])
 
+      (map (lambda (entry) (gui-bind-handlers builder entry)) gui-handlers)
       (gtk-builder-connect-signals builder 0)
-      (g-object-unref builder)
       (gtk-widget-show window)
       (gtk-main)
+      (g-object-unref builder)
 )))
 
 (sound (lambda (play)
-  (gui-main
+  (gui-main (lambda (builder)
     (list
       (cons "on_window_main_destroy" (lambda (window data) (gtk-main-quit)))
+      (cons "on_add_music_btn_clicked" (lambda (window data) (display "add music button clicked \n")))
+      (cons
+        "on_pause_btn_clicked"
+        (lambda (window data)
+          (gtk-widget-set-visible (gtk-builder-get-object builder "pause_btn") #f)
+          (gtk-widget-set-visible (gtk-builder-get-object builder "play_btn") #t)
+          (gst-element-set-state play (gst-state->int 'null))))
+
       (cons
         "on_play_btn_clicked"
         (lambda (window data)
+          (gtk-widget-set-visible (gtk-builder-get-object builder "pause_btn") #t)
+          (gtk-widget-set-visible (gtk-builder-get-object builder "play_btn") #f)
           (g-object-set play "uri" (gst-filename-to-uri "loop.mp3" 0))
-          (gst-element-set-state play (gst-state->int 'playing))
-          (display "clicked\n")))))))
+          (gst-element-set-state play (gst-state->int 'playing))          
+          (display "clicked\n"))))))))
 (exit)

@@ -16,10 +16,11 @@
         <property name="subtitle" translatable="yes">A collaborative and distributed radio</property>
         <property name="show_close_button">True</property>
         <child>
-          <object class="GtkButton">
+          <object class="GtkButton" id="add_music_btn">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="clicked" handler="on_add_music_btn_clicked" swapped="no"/>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
@@ -94,9 +95,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="pause_btn">
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_pause_btn_clicked" swapped="no"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>

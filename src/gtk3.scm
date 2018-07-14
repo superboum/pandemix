@@ -7,6 +7,7 @@
     gtk-builder-connect-signals
     gtk-builder-add-callback-symbol
     gtk-widget-show
+    gtk-widget-set-visible
     gtk-main
     gtk-main-quit)
   (import (chezscheme))
@@ -25,6 +26,8 @@
     ((foreign-procedure "gtk_builder_add_callback_symbol" (void* string void*) void) builder cb-name cb-symbol))
   (define (gtk-widget-show widget)
     ((foreign-procedure "gtk_widget_show" (void*) void) widget))
+  (define (gtk-widget-set-visible widget visibility)
+    ((foreign-procedure "gtk_widget_set_visible" (void* boolean) void) widget visibility))
   (define (gtk-main)
     ((foreign-procedure "gtk_main" () void)))
   (define (gtk-main-quit)
