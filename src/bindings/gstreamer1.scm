@@ -68,4 +68,4 @@
   (define (gst-filename-to-uri filename err)
     ((foreign-procedure "gst_filename_to_uri" (string void*) string) filename err))
 
-  (load-shared-object "libgstreamer-1.0.so"))
+  (load-shared-object "libgstreamer-1.0.so.0"))
