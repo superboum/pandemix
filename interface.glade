@@ -51,11 +51,44 @@
           </packing>
         </child>
         <child>
-          <object class="GtkImage">
+          <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="icon_name">audio-x-generic-symbolic</property>
-            <property name="icon_size">6</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="margin_right">12</property>
+                <property name="pixel_size">64</property>
+                <property name="icon_name">audio-x-generic-symbolic</property>
+                <property name="icon_size">0</property>
+                <style>
+                  <class name="dim-label"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="margin_left">12</property>
+                <property name="label" translatable="yes">&lt;b&gt;&lt;span size="large"&gt;No music in the playlist&lt;/span&gt;&lt;/b&gt;
+Add one and start listening to music</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">True</property>
